@@ -1,0 +1,137 @@
+\:root
+    font-size: 16px
+    --font-family: 'Open Sans'
+    --text-primary: #b6b6b6
+    --text-secondary: #ececec
+    --bg-primary: #23232e
+    --bg-secondary: #141418
+*
+    box-sizing: border-box
+
+body
+    font-family: var(--font-family)
+    color: var(--text-primary)
+    background-color: var(--bg-primary)
+    margin: 0
+    padding: 0
+
+body::-webkit-scrollbar
+    width: 0.25rem
+    
+body::-webkit-scrollbar-track
+    background: #1e1e24
+    
+body::-webkit-scrollbar-thumb
+    background: #6649b8
+
+
+// @media (min-width: 768px)
+//     .container
+//         display: grid
+//         grid-template-columns: 200px 1fr 200px
+//         grid-template-rows: auto 1fr auto
+
+header
+    grid-column: span 3
+    padding: 16px
+    text-align: center
+    font-size: 1.4em
+    background-color: var(--bg-primary)
+    color: var(--text-primary)
+    position: sticky
+    top: 0
+
+// main
+//     flex: 1
+//     padding: 20px
+//     margin-left: 5rem
+//     padding: 1rem
+
+nav
+    background-color: var(--bg-secondary)
+    padding: 20px
+ 
+aside
+    padding: 20px
+    background-color: #936
+
+footer
+    grid-column: span 3
+    padding: 30px
+    text-align: center
+    font-size: 1.4em
+    background-color: #690
+    color: var(--text-secondary)
+
+h1
+    margin-bottom: 1em
+    font-size: 1.3em
+    font-weight: bold
+
+ul
+    margin: 12px
+    padding: 12px
+    list-style: none
+li
+    padding: 12px
+    list-style: none
+    background-color: var(--bg-primary)
+li:hover
+    filter: invert(1)
+    // a
+    //     color: invert(1)
+a
+    text-decoration: none
+    color: var(--text-secondary)
+a:visited
+    color: var(--text-secondary)
+a:hover
+    color: var(--text-secondary)
+
+button
+    padding: 12px
+
+manga-list
+    nav
+        display: grid
+        grid-template-columns: 1fr 1fr 
+        grid-column-gap: 16px
+
+    ul        
+        display: grid;
+        grid-template-columns: 1fr 1fr
+        // grit-template-rows: repeat(auto-fill)
+        grid-column-gap: 16px
+        padding: 16px
+        margin: 0px
+        li
+            // height: 400px
+            padding: 0px
+            margin: 0px
+            div
+                height: 240px
+                background-color: black
+                img
+                    width: 100%
+                    height: 100%
+                    object-fit: cover //cover, contain
+@media (min-width: 460px)
+    manga-list ul
+        grid-template-columns: 1fr 1fr 1fr
+    
+@media (min-width: 768px)
+    manga-list ul
+        grid-template-columns: 1fr 1fr 1fr 1fr
+// .container
+//     display: flex
+//     flex-direction: column
+//     min-height: 100vh
+
+// .navbar
+//     width: 5rem
+//     height: 100vh
+//     position: fixed
+//     background-color: var(--bg-primary)
+
+// .navbar-nav
+//     list-style: none
