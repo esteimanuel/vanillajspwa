@@ -1,6 +1,5 @@
 import { Router } from '/vaadin-router.js';//'https://unpkg.com/@vaadin/router';
 const handleJsonResponse = response => response.ok ? response.json() : this.Promise.reject(response);
-const logData = data => { console.log('log data', data); return data; };
 const handleError = err => console.warn('Something went wrong.', err);
 const mangaEdenApi = 'https://www.mangaeden.com/api';
 const mangaEdenCdn = 'https://cdn.mangaeden.com/mangasimg';
@@ -28,12 +27,10 @@ const mapResponseToMangaList = res => res.manga.map(item => { return { id: item.
 const getMangaList = (pageIndex, pageSize) => {
     let index = Number(pageIndex) ? Number(pageIndex) : 0;
     let size = Number(pageSize) ? Number(pageSize) : 25;
-    console.log(`get manga list page index ${index} size ${size}`);
     const url = `${mangaEdenApi}/list/0/?p=${index}&l=${size}`;
     return fetch(url)
         .then(handleJsonResponse)
         .then(mapResponseToMangaList)
-        .then(logData)
         .catch(handleError);
 };
 
@@ -41,6 +38,8 @@ const mapResponseToMangaInfo = res => {
     return {
         title: res.title,
         description: res.description,
+        categories: res.categories,
+        image: `${mangaEdenCdn}/${res.image}`,
         chapters: res.chapters
             .map(chapter => { return { id: chapter[3], number: chapter[0], title: chapter[2] } })
             .sort((a, b) => a.number - b.number)
@@ -48,12 +47,12 @@ const mapResponseToMangaInfo = res => {
     }
 };
 const getMangaInfo = (mangaId) => {
+    mangaId = `${mangaId}`;
     console.log(`get manga info for manga ${mangaId}`);
     const url = `${mangaEdenApi}/manga/${mangaId}/`;
     return fetch(url)
         .then(handleJsonResponse)
         .then(mapResponseToMangaInfo)
-        .then(logData)
         .catch(handleError);
 }
 
@@ -70,15 +69,13 @@ const getMangaChapter = (chapterId) => {
     return fetch(url)
         .then(handleJsonResponse)
         .then(mapResponseToMangaChapter)
-        .then(logData)
         .catch(handleError);
 }
 
 const outlet = document.getElementById('outlet');
 const router = new Router(outlet);
 router.setRoutes([
-    { path: '/', action: getMangaList, component: 'manga-list' },
-    { path: '/manga', action: getMangaList, component: 'manga-list' },
+    { path: '/', action: getMangaList, component: 'manga-overview' },
     { path: '/manga/:manga', action: getMangaInfo, component: 'manga-info' },
     { path: '/manga/:manga/chapter/:chapter', action: { getMangaInfo: getMangaInfo, getMangaChapter: getMangaChapter }, component: 'manga-chapter' },
     { path: '(.*)', component: 'not-found-view' },

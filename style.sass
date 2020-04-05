@@ -5,6 +5,7 @@
     --text-secondary: #ececec
     --bg-primary: #23232e
     --bg-secondary: #141418
+    --border-radius: 4px
 *
     box-sizing: border-box
 
@@ -24,114 +25,257 @@ body::-webkit-scrollbar-track
 body::-webkit-scrollbar-thumb
     background: #6649b8
 
-
-// @media (min-width: 768px)
-//     .container
-//         display: grid
-//         grid-template-columns: 200px 1fr 200px
-//         grid-template-rows: auto 1fr auto
-
 header
     grid-column: span 3
-    padding: 16px
+    // padding: 16px
     text-align: center
     font-size: 1.4em
     background-color: var(--bg-primary)
     color: var(--text-primary)
-    position: sticky
-    top: 0
-
-// main
-//     flex: 1
-//     padding: 20px
-//     margin-left: 5rem
-//     padding: 1rem
 
 nav
     background-color: var(--bg-secondary)
     padding: 20px
- 
+
 aside
     padding: 20px
-    background-color: #936
+    background-color: var(--bg-secondary)
 
 footer
     grid-column: span 3
     padding: 30px
     text-align: center
     font-size: 1.4em
-    background-color: #690
+    background-color: var(--bg-secondary)
     color: var(--text-secondary)
 
-h1
-    margin-bottom: 1em
-    font-size: 1.3em
-    font-weight: bold
+// h1
+//     margin-bottom: 1em
+//     font-size: 1.3em
+//     font-weight: bold
 
-ul
-    margin: 12px
-    padding: 12px
-    list-style: none
-li
-    padding: 12px
-    list-style: none
-    background-color: var(--bg-primary)
-li:hover
-    filter: invert(1)
-    // a
-    //     color: invert(1)
+// ul
+//     margin: 12px
+//     padding: 12px
+//     list-style: none
+// li
+//     padding: 12px
+//     list-style: none
+//     background-color: var(--bg-primary)
+
 a
     text-decoration: none
     color: var(--text-secondary)
+
 a:visited
     color: var(--text-secondary)
+
 a:hover
     color: var(--text-secondary)
 
-button
-    padding: 12px
+// button
+//     padding: 12px
 
-manga-list
+manga-overview
     nav
-        display: grid
-        grid-template-columns: 1fr 1fr 
-        grid-column-gap: 16px
+        overflow: visible
+        position: sticky
+        top: 0
+
+        ol
+            display: grid
+            grid-template-columns: 1fr 1fr 
+            grid-column-gap: 16px
+            margin-block-start: 0px
+            margin-block-end: 0px
+            padding-inline-start: 0px
+
+            li
+                list-style: none
+                padding: 12px
+                background-color: var(--bg-primary)
+                border-radius: var(--border-radius)
+
+            a
+                display: block
+                text-align: center
 
     ul        
-        display: grid;
+        display: grid
         grid-template-columns: 1fr 1fr
-        // grit-template-rows: repeat(auto-fill)
-        grid-column-gap: 16px
+        grid-auto-columns: 1fr
+        grid-auto-rows: 1fr
+        grid-gap: 16px
         padding: 16px
         margin: 0px
+        list-style: none
+        
         li
-            // height: 400px
+            list-style: none
             padding: 0px
             margin: 0px
-            div
-                height: 240px
-                background-color: black
+            background: rgba(255,255,255, 0.1)
+            animation-name: my-fade-in
+            animation-duration: 4s
+            border-radius: var(--border-radius)
+            
+            a
+                object-fit: cover
+                transition: 1s ease
                 img
                     width: 100%
                     height: 100%
                     object-fit: cover //cover, contain
-@media (min-width: 460px)
-    manga-list ul
+                    border-radius: var(--border-radius)
+                    overflow: none
+                    // transition: 0.3s ease
+                // img:hover
+                //     transform: scale(1.15)
+                h1
+                    margin: 24px
+                    font-size: 1.3em
+                    text-align: justify
+                    text-overflow: ellipsis
+                    color: rgba(255,255,255,0.5)
+    //         a:hover
+    //             opacity: 1
+    // ul:hover a
+    //     opacity: 0.3
+
+@media (min-width: 512px)
+    manga-overview ul
         grid-template-columns: 1fr 1fr 1fr
     
 @media (min-width: 768px)
-    manga-list ul
+    manga-overview ul
         grid-template-columns: 1fr 1fr 1fr 1fr
-// .container
-//     display: flex
-//     flex-direction: column
-//     min-height: 100vh
+    
+@media (min-width: 1024px)
+    manga-overview ul
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr
 
-// .navbar
-//     width: 5rem
-//     height: 100vh
-//     position: fixed
-//     background-color: var(--bg-primary)
+@keyframes my-fade-in
+    0%
+        opacity: 0%
+        
+    100%
+        opacity: 100%
 
-// .navbar-nav
-//     list-style: none
+manga-info
+    h1
+        padding: 12px
+        margin-block-start: 0px
+        margin-block-end: 0px
+    img
+        width: 100%
+    p
+        padding: 12px
+    li
+        padding: 12px
+
+@media (min-width: 768px)
+    manga-info
+        display: grid
+        grid-template-columns: 1fr 1fr 
+        grid-gap: 16px
+        h1
+            grid-column: span 2
+        
+        img
+            display: inline-block
+
+        ol
+            grid-column: span 2
+manga-chapter
+    nav
+        overflow: visible
+        position: sticky
+        top: 0
+
+        ol
+            display: grid
+            grid-template-columns: 1fr 1fr 
+            grid-column-gap: 16px
+            margin-block-start: 0px
+            margin-block-end: 0px
+            padding-inline-start: 0px
+
+            li
+                list-style: none
+                padding: 12px
+                background-color: var(--bg-primary)
+                border-radius: var(--border-radius)
+
+            a
+                display: block
+                text-align: center
+        
+    .chapter-images img
+        width: 100%
+
+// loading icon
+.sk-folding-cube 
+    margin: 20px auto
+    width: 40px
+    height: 40px
+    position: relative
+    transform: rotateZ(45deg)
+
+    .sk-cube 
+        float: left
+        width: 50%
+        height: 50%
+        position: relative
+        transform: scale(1.1)
+
+    .sk-cube:before 
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        background-color: #333
+        animation: sk-foldCubeAngle 2.4s infinite linear both
+        transform-origin: 100% 100%
+
+    .sk-cube2 
+        transform: scale(1.1) rotateZ(90deg)
+
+    .sk-cube3 
+        transform: scale(1.1) rotateZ(180deg)
+
+    .sk-cube4 
+        transform: scale(1.1) rotateZ(270deg)
+
+    .sk-cube2:before 
+        animation-delay: 0.3s
+
+    .sk-cube3:before 
+        animation-delay: 0.6s
+
+    .sk-cube4:before 
+        animation-delay: 0.9s
+
+@-webkit-keyframes sk-foldCubeAngle 
+    0%, 10% 
+        transform: perspective(140px) rotateX(-180deg)
+        opacity: 0 
+    25%, 75% 
+        transform: perspective(140px) rotateX(0deg)
+        opacity: 1 
+    90%, 100% 
+        transform: perspective(140px) rotateY(180deg)
+        opacity: 0 
+
+@keyframes sk-foldCubeAngle 
+    0%, 10%
+        transform: perspective(140px) rotateX(-180deg)
+        opacity: 0
+    25%, 75%
+        transform: perspective(140px) rotateX(0deg)
+        opacity: 1
+    90%, 100%
+        transform: perspective(140px) rotateY(180deg)
+        opacity: 0
+  

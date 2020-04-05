@@ -1,70 +1,49 @@
+const template = `
+    <nav>
+        <ol>
+            <li class="chapter-prev"><a><span>prev</span></a></li>
+            <li class="chapter-next"><a><span>next</span></a></li>
+        </ol>
+    </nav>
+    <div class="chapter-images"></div>
+`;
+
 class MangaChapter extends HTMLElement {
-    constructor() {
-        super();
-        this._mangaId = "";
-        this._id = "";
-        this._images = [];
+    constructor() { 
+        super(); 
+    }
+
+    renderNav(mangaId, chapterId, data) {
+        if (!data) return;
+        let current = data.chapters.find(chapter => chapter.id === chapterId); 
+        
+        let prev = document.querySelector('.chapter-prev a');
+        if (current.prev) prev.setAttribute('href', `/manga/${mangaId}/chapter/${current.prev}`);
+
+        let next = document.querySelector('.chapter-next a');
+        if (current.next) next.setAttribute('href', `/manga/${mangaId}/chapter/${current.next}`);
+    }
+
+    renderChapters(data) {
+        if (!data) return;
+        document.querySelector('.chapter-images').innerHTML = 
+            data.images
+            .map(image => `<img src="${image.url}" loading="lazy">`)
+            .join('');
     }
 
     onAfterEnter(context) {
-        this.mangaId = context.params.manga;
+        this.innerHTML = template;
+        let mangaId = context.params.manga;
         let chapterId = context.params.chapter;
+
+        context.route.action
+            .getMangaChapter(chapterId)
+            .then(data => this.renderChapters(data));
         
-        let container = document.createElement('div');
-        container.setAttribute('class', 'images-container');
-        this.appendChild(container);
-
-        let nav = document.createElement('nav');
-        this.appendChild(nav);
-
-        this.getMangaChapter = (chapterId) => context.route.action.getMangaChapter(chapterId);
-        this.getMangaChapter(chapterId).then(data => { 
-            this.images = data.images;
-        });
-        
-        this.getMangaInfo = (mangaId) => context.route.action.getMangaInfo(mangaId);
-        this.getMangaInfo(this.mangaId).then(data => {
-            let current = data.chapters.find(chapter => chapter.id === chapterId);
-            if (current.prev) this.prev = current.prev;
-            if (current.next) this.next = current.next;
-        });
-    }
-
-    get images() { return this._images; }
-    set images(value) { 
-        this._images = value; 
-        let container = document.querySelector('.images-container');
-        container.innerText = '';
-        this._images.forEach(image => {
-            var img = document.createElement('img');
-            img.setAttribute('src', image.url);
-            img.setAttribute('width', '100%');
-            img.setAttribute('min-height', '100px');
-            img.setAttribute('loading', 'lazy');
-            container.appendChild(img);
-        });
-    }
-
-    get prev() { return this._prev; }
-    set prev(value) {
-        this._prev = value;
-
-        let link = document.createElement('a');
-        link.setAttribute('href', `/manga/${this.mangaId}/chapter/${value}`)
-        link.innerText = 'prev';
-        let nav = document.querySelector('nav');
-        nav.appendChild(link);
-    }
-
-    get next() { return this._next; }
-    set next(value) {
-        this._next = value;
-
-        let link = document.createElement('a');
-        link.setAttribute('href', `/manga/${this.mangaId}/chapter/${value}`)
-        link.innerText = 'next';
-        let nav = document.querySelector('nav');
-        nav.appendChild(link);
+        context.route.action
+            .getMangaInfo(mangaId)
+            .then(data => this.renderNav(mangaId, chapterId, data));
     }
 }
 customElements.define('manga-chapter', MangaChapter);
